@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet debug page</title>
+
+	<link rel="stylesheet" href="../../dist/leaflet.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="../../dist/leaflet.ie.css" /><![endif]-->
+	
+	<link rel="stylesheet" href="../css/screen.css" />
+	
+	<script>
+		L_PREFER_CANVAS = true; // experimental
+	</script>
+	<script src="../leaflet-include.js"></script>
+	<script src="../../../Leaflet GeoJSON example_files/lilao_poly.js" type="text/javascript"></script>
+	<script src="../../../Leaflet GeoJSON example_files/jquery-1.4.4.js"></script>
+	<script type="text/javascript">
+	
+	function change_image(){var src = $(".leaflet-image-layer").attr("src");
+	     if(src == 'rb.png'){$(".leaflet-image-layer").attr("src",'rb.jpg')}
+		  if(src == 'rb.jpg'){$(".leaflet-image-layer").attr("src",'rb.png')}
+	    }
+	    $(document).ready(function() {
+		
+		
+		});
+	</script>
+</head>
+<body>
+	<div id="map" style="width: 800px; height: 600px; border: 1px solid #ccc"></div>
+    <button onClick="group.removeLayer(polygon)">Remove path</button>
+    <button onClick="group.addLayer(polygon)">Remove circle</button>
+    <button onClick="group.clearLayers()">Remove all layers</button>
+   <button onClick="group.addLayer(path)">add path</button>
+    <button onClick="group.addLayer(satellite_image)">add circle</button>
+    
+     <button onClick="change_image()">change_image</button>
+	 <button onClick="satellite_image.setVisible(false)">hidden_image</button>
+     <button onClick="satellite_image.setVisible(true)">show_image</button>
+	  <button onClick="group.removeLayer(featuregroup)">hidden_circle</button>
+	   <button onClick="group.addLayer(featuregroup)">add_circle</button>
+	  <button onClick="group.addLayer(lilaojsonLayer)">show_layer</button>
+	  <button onClick="map.removeLayer(lilaojsonLayer)">hiddenlayer</button>
+	<script src="route.js"></script>
+	<script>
+		var cloudmadeUrl = 'http://{s}.acetate.geoiq.com/tiles/acetate/{z}/{x}/{y}.png',
+			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18});
+	
+		for (var i = 0, latlngs = [], len = route.length; i < len; i++) {
+			latlngs.push(new L.LatLng(route[i][0], route[i][1]));
+		}
+		var path = new L.Polyline(latlngs);
+
+		var map = new L.Map('map', {layers: [cloudmade]});
+		map.setView(new L.LatLng(39.89, 116.4), 12)
+		
+		
+		  var satellite_image = new L.ImageOverlay( 
+        "rb.png", new L.LatLngBounds(new L.LatLng(39,115),new L.LatLng(41.5,118)));
+		map.addLayer(satellite_image)//
+		
+		 var radar_image = new L.ImageOverlay( 
+        "vis.jpg", new L.LatLngBounds(new L.LatLng(38,115),new L.LatLng(40.5,118)));
+		//map.addLayer(radar_image)//
+		
+		var group = new L.LayerGroup();
+
+		//map.fitBounds(new L.LatLngBounds(latlngs));
+		
+		var circleLocation = new L.LatLng(40.08, 116.41),
+		circleOptions = {
+		    color: 'red', 
+		    fillColor: 'yellow', 
+		    fillOpacity: 0.7
+		};
+		var po= []
+		var lilaojsonLayer = new L.GeoJSON();
+		 lilaojsonLayer.on("featureparse", function (e) {
+		    
+		    var popupContent = "";
+		    
+		    if (e.properties && e.properties.popupContent ) {
+		        popupContent += '<p>网格序号:'+e.properties.fid+'  网格类型:'+e.properties.stype+'</p>'+'<p>第1小时降水量：'+e.properties.rain['01H']+'毫米'+'</p>'+'<p>第2小时降水量：'+e.properties.rain['02H']+'毫米'+'</p>'+'<p>第3小时降水量：'+e.properties.rain['03H']+'毫米'+'</p>';
+				
+			//$('#attrs').append("<p><span>网格序号"+e.properties.fid+"</span><p>"+"<p><span>网格类型"+e.properties.stype+"</span><p>");
+		    }
+			//e.layer.on("click", function (e){alert(e.geometry)});
+           // e.layer.on("mouseover", function (e){$("#position").html(String(e.latlng))});
+		   
+		    e.layer.bindPopup(popupContent);
+		    if (e.properties && e.properties.style && e.layer.setStyle) {
+		        e.layer.setStyle(e.properties.style);
+		    }
+		});
+		
+		lilaojsonLayer.addGeoJSON(lilao_poly)
+		group.addLayer(lilaojsonLayer)
+		//map.addLayer(lilaojsonLayer)
+		var circle = new L.Circle(circleLocation, 5000, circleOptions),
+			circleMarker = new L.CircleMarker(circleLocation, {fillColor: 'blue', fillOpacity: 1, stroke: false});
+		
+		
+		var circleLocation = new L.LatLng(40., 116.41),
+		circleOptions = {
+		    color: 'red', 
+		    fillColor: 'yellow', 
+		    fillOpacity: 0.7
+		};
+		//group.addLayer(circle)
+		//.addLayer(circleMarker);
+		
+		var circle2 = new L.Circle(circleLocation, 5000, circleOptions)
+		
+		var featuregroup = new L.FeatureGroup([circle,circle2]);
+		group.addLayer(featuregroup)
+		//circle.setVisible(false)
+		
+		
+		for (var i = 0; i < 20; i++) {
+			for (var j = 0; j < 20; j++) {
+			
+			var circleLocationnew = new L.LatLng(j*0.01+39.7, i*0.01+116.3)
+			var circlenew = new L.Circle(circleLocationnew, 50,{ color: 'red',sss:String(i),minZ:10,gg: group})
+			
+			group.addLayer(circlenew);
+			circlenew.bindPopup('I am a circle');
+		}
+		}
+		
+		for (var i = 0; i < 20; i++) {
+			for (var j = 0; j < 20; j++) {
+			
+			var circleLocationnew = new L.LatLng(j*0.01+39.5, i*0.01+116.1)
+			var circlenew = new L.Circle(circleLocationnew, 50,{ color: 'red',sss:String(i),minZ:10,gg: group})
+			
+			group.addLayer(circlenew);
+			circlenew.bindPopup('I am a circle');
+		}
+		}
+		
+		circle.bindPopup('I am a circle');
+		circleMarker.bindPopup('I am a circle marker');
+		
+		group.addLayer(path);		
+		path.bindPopup('I am a polyline');
+		
+		var p1 = latlngs[0],
+			p2 = latlngs[parseInt(len/4)],
+			p3 = latlngs[parseInt(len/3)],
+			p4 = latlngs[parseInt(len/2)],
+			p5 = latlngs[len - 1],
+			polygonPoints = [p1, p2, p3, p4, p5];
+
+		var h1 = new L.LatLng(p1.lat, p1.lng),
+			h2 = new L.LatLng(p2.lat, p2.lng),
+			h3 = new L.LatLng(p3.lat, p3.lng),
+			h4 = new L.LatLng(p4.lat, p4.lng),
+			h5 = new L.LatLng(p5.lat, p5.lng);
+		
+		h1.lng += 20;
+		h2.lat -= 5;
+		h3.lat -= 5;
+		h4.lng -= 10;
+		h5.lng -= 8;
+		h5.lat += 10;
+		
+		var holePoints = [h5, h4, h3, h2, h1];
+
+		var polygon = new L.Polygon([polygonPoints, holePoints], {
+			fillColor: "#333",
+			color: 'green'
+		});
+		group.addLayer(polygon);
+		
+		polygon.bindPopup('I am a polygon');
+		
+		map.addLayer(group);
+		 var markerLocation = new L.LatLng(40., 116.45);
+
+         var marker = new L.Marker(markerLocation);
+         map.addLayer(marker);
+		
+		marker.setVisible(false)
+		marker.setVisible(true)
+		//cloudmade.setVisible(false)
+		
+		
+		map.on('mousemove', function(e) {
+		  $("#position").html(String(e.latlng))
+		   //$('#attrs').empty();
+		 // $('#attrs').append("<p><span>网格序号"+e.properties.fid+"</span><p>"+"<p><span>网格类型"+e.properties.stype+"</span><p>");
+		  
+         });
+		
+		map.on('zoomend', function(e) {
+		  $("#zoom").html(String(map.getZoom()))
+		 //map.removeLayer(group);
+		 // lilaojsonLayer.clearLayers();
+		 if(map.getZoom() > 13){ lilaojsonLayer.addGeoJSON(lilaojsonLayer)}
+		 
+		   
+		 //map.addLayer(group);
+         
+		
+    
+    
+});
+		
+
+	</script>
+ <div style="width:800px">
+	当前缩放级别<p id='zoom'>12</p>当前位置<p id='position'>12</p>aws<p id='aws_info'>12</p>
+	</div>
+</body>
+</html>

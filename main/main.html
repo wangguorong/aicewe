@@ -7,32 +7,37 @@
 	<base href="http://jquery-border-layout.googlecode.com/svn/trunk/" />
 	-->
 
-	<title>Complex Layout Demo</title>
+	<title>demo aicewe</title>
 
 	<!-- DEMO styles - specific to this page -->
 	<link rel="stylesheet" type="text/css" href="../css/complex.css">
+	<link rel="stylesheet" type="text/css" href="../js/leaflet/dist/leaflet.css" />
+		
+	
+<link rel="stylesheet" href="../js/jquery.treeview/jquery.treeview.css" />
+
+
+
+
+
 	<!--[if lte IE 7]>
 		<style type="text/css"> body { font-size: 85%; } </style>
 	<![endif]-->
-
+<!--     <script>
+		L_PREFER_CANVAS = true; // experimental
+	</script>-->
+	
+	<script type="text/javascript" src="../js/leaflet/debug/leaflet-include.js"></script>
 	<script type="text/javascript" src="../js/jquery-latest.js"></script>
 	<script type="text/javascript" src="../js/jquery-ui-latest.js"></script>
 	<script type="text/javascript" src="../js/jquery.layout-latest.js"></script>
-	<script type="text/javascript" src="../js/complex.js"></script>
-
-	<!-- FUTURE REFERENCE - ACCESS TO EXTERNAL LIBRARIES
-	<script type="text/javascript" src="http://jquery-border-layout.googlecode.com/svn/trunk/jquery.layout.js"></script>
-	<script type="text/javascript" src="http://ui.jquery.com/js/jquery.js"></script>
-	<script type="text/javascript" src="http://ui.jquery.com/js/ui.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-	<script type="text/javascript" src="http://dev.jquery.com/view/tags/ui/latest/ui/ui.core.js"></script>
-	<script type="text/javascript" src="http://dev.jquery.com/view/tags/ui/latest/ui/ui.draggable.js"></script>
-	<script type="text/javascript" src="http://dev.jquery.com/view/tags/ui/latest/ui/effects.core.js"></script>
-	<script type="text/javascript" src="http://dev.jquery.com/view/tags/ui/latest/ui/effects.slide.js"></script>
-	<script type="text/javascript" src="http://dev.jquery.com/view/tags/ui/latest/ui/effects.drop.js"></script>
-	<script type="text/javascript" src="http://dev.jquery.com/view/tags/ui/latest/ui/effects.scale.js"></script>
-	<link rel="stylesheet" type="text/css" href="http://dev.jquery.com/view/tags/ui/latest/themes/flora/flora.all.css" />
-	-->
+	<script type="text/javascript" src="../js/treelist.js"></script>
+	<!--<script type="text/javascript" src="../js/complex.js"></script>-->
+     <script src="../js/jquery.treeview/lib/jquery.cookie.js" type="text/javascript"></script>
+<script src="../js/jquery.treeview/jquery.treeview.js" type="text/javascript"></script>
+	 
+	<script src="../media/lilao/aws_point.js" type="text/javascript"></script>
+	<script src="../media/lilao/lilao_poly.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 /*
@@ -42,221 +47,212 @@
  *
  *	NOTE: For best code readability, view this with a fixed-space font and tabs equal to 4-chars
  */
-
+    var map = null;
 	var outerLayout, innerLayout;
-
+	var lilaojsonLayer = new L.GeoJSON();
+	var aws5layer = new L.GeoJSON();
+    var IsSee = [1,1]
+	var CurLayer = [lilaojsonLayer,aws5layer]
 	/*
 	*#######################
 	*     ON PAGE LOAD
 	*#######################
 	*/
-	$(document).ready( function() {
-		// create the OUTER LAYOUT
-		outerLayout = $("body").layout( layoutSettings_Outer );
-
-		/*******************************
-		 ***  CUSTOM LAYOUT BUTTONS  ***
-		 *******************************
-		 *
-		 * Add SPANs to the east/west panes for customer "close" and "pin" buttons
-		 *
-		 * COULD have hard-coded span, div, button, image, or any element to use as a 'button'...
-		 * ... but instead am adding SPANs via script - THEN attaching the layout-events to them
-		 *
-		 * CSS will size and position the spans, as well as set the background-images
-		 */
-
-		// BIND events to hard-coded buttons in the NORTH toolbar
-//		outerLayout.addToggleBtn( "#tbarToggleNorth", "north" );
-//		outerLayout.addOpenBtn( "#tbarOpenSouth", "south" );
-//		outerLayout.addCloseBtn( "#tbarCloseSouth", "south" );
-//		outerLayout.addPinBtn( "#tbarPinWest", "west" );
-//		outerLayout.addPinBtn( "#tbarPinEast", "east" );
-
-		// save selector strings to vars so we don't have to repeat it
-		// must prefix paneClass with "body > " to target ONLY the outerLayout panes
-		var westSelector = "body > .ui-layout-west"; // outer-west pane
-		var eastSelector = "body > .ui-layout-east"; // outer-east pane
-
-		 // CREATE SPANs for pin-buttons - using a generic class as identifiers
-		$("<span></span>").addClass("pin-button").prependTo( westSelector );
-		$("<span></span>").addClass("pin-button").prependTo( eastSelector );
-		// BIND events to pin-buttons to make them functional
-		outerLayout.addPinBtn( westSelector +" .pin-button", "west");
-		outerLayout.addPinBtn( eastSelector +" .pin-button", "east" );
-
-		 // CREATE SPANs for close-buttons - using unique IDs as identifiers
-		$("<span></span>").attr("id", "west-closer" ).prependTo( westSelector );
-		$("<span></span>").attr("id", "east-closer").prependTo( eastSelector );
-		// BIND layout events to close-buttons to make them functional
-		outerLayout.addCloseBtn("#west-closer", "west");
-		outerLayout.addCloseBtn("#east-closer", "east");
-
-
-
-		/* Create the INNER LAYOUT - nested inside the 'center pane' of the outer layout
-		 * Inner Layout is create by createInnerLayout() function - on demand
-		 *
-			innerLayout = $("div.pane-center").layout( layoutSettings_Inner );
-		 *
-		 */
-
-
-		// DEMO HELPER: prevent hyperlinks from reloading page when a 'base.href' is set
-		$("a").each(function () {
-			var path = document.location.href;
-			if (path.substr(path.length-1)=="#") path = path.substr(0,path.length-1);
-			if (this.href.substr(this.href.length-1) == "#") this.href = path +"#";
+	function AddAws5Feature(map){
+	
+	   var BaseballIcon = L.Icon.extend({
+			iconUrl: 'images/marker.png',
+			shadowUrl: null,
+			iconSize: new L.Point(32, 37),
+			shadowSize: null,
+			iconAnchor: new L.Point(14, 37),
+			popupAnchor: new L.Point(2, -32)
 		});
+		    
+	   aws5layer = new L.GeoJSON(aws_point, {
+		    pointToLayer: function (latlng) {
 
+               return new L.CircleMarker(latlng);
+             }
+		});
+		   aws5layer.on("featureparse", function (e) {
+		    
+		    var popupContent = "kjhkjhkj";
+		    if (e.geometryType == "Point") {
+		        popupContent += "";
+		    }
+		    if (e.properties && e.properties.type ) {
+		        popupContent += '<p>站点：'+e.properties.stion_id+'</p>';
+				
+		    }
+		    e.layer.bindPopup(popupContent);
+			//alert(e.layer.getContent(popupContent));
+			
+		    if (e.properties && e.properties.style && e.layer.setStyle) {
+		        e.layer.setStyle(e.properties.style);
+		    }
+		});
+		aws5layer.addGeoJSON(aws_point)
+		map.addLayer(aws5layer)
+		//map.removeLayer(aws5layer)
+	}
+	////////////////////
+	function AddLilaoFeature(map){
+	    lilaojsonLayer.on("featureparse", function (e) {
+		    
+		    var popupContent = "";
+		    
+		    if (e.properties && e.properties.popupContent ) {
+		        popupContent += '<p>:'+e.properties.fid+' :'+e.properties.stype+'</p>'+'<p>'+e.properties.rain['01H']+''+'</p>'+'<p>'+e.properties.rain['02H']+''+'</p>'+'<p>'+e.properties.rain['03H']+''+'</p>';
+				
+			//$('#attrs').append("<p><span>�������"+e.properties.fid+"</span><p>"+"<p><span>��������"+e.properties.stype+"</span><p>");
+		    }
+			//e.layer.on("click", function (e){alert(e.geometry)});
+           // e.layer.on("mouseover", function (e){$("#position").html(String(e.latlng))});
+		   
+		    e.layer.bindPopup(popupContent);
+		    if (e.properties && e.properties.style && e.layer.setStyle) {
+		        e.layer.setStyle(e.properties.style);
+		    }
+		});
+		
+		lilaojsonLayer.addGeoJSON(lilao_poly)
+		map.addLayer(lilaojsonLayer)
+		
+	
+	    
+	   	for (var i = 0; i < 20; i++) {
+			for (var j = 0; j < 20; j++) {
+			
+			var circleLocationnew = new L.LatLng(j*0.01+39.7, i*0.01+116.3)
+			var circlenew = new L.Circle(circleLocationnew, 50,{ color: 'red'})
+			
+			map.addLayer(circlenew);
+			circlenew.bindPopup('I am a circle');
+		}
+		}
+	}
+	 
+	 
+	 function togger_layer(map,index){
+	      alert(index)
+	     if(IsSee[index] ==1){IsSee[index]=0}else{IsSee[index]=1} 
+		 alert(IsSee)
+		for(var i=0;i<CurLayer.length;i++){
+		alert('remove'+i)
+		   map.removeLayer(CurLayer[i])
+		   }
+		   
+		//for(var i=0;i<CurLayer.length;i++){
+//		   if(IsSee[i] == 1){map.addLayer(CurLayer[i])}
+//		   }
+		}
+	
+	$(function() {
+		// create the OUTER LAYOUT
+		config_tree()
+
+
+
+       var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18});
+		map = new L.Map('map', {layers: [cloudmade]});
+		map.setView(new L.LatLng(39.89, 116.4), 12)
+		
+		AddLilaoFeature(map)
+		AddAws5Feature(map)
+	     //lilaojsonLayer = new L.GeoJSON();
+		 
+		
 	});
 
 
-	/*
-	*#######################
-	* INNER LAYOUT SETTINGS
-	*#######################
-	*
-	* These settings are set in 'list format' - no nested data-structures
-	* Default settings are specified with just their name, like: fxName:"slide"
-	* Pane-specific settings are prefixed with the pane name + 2-underscores: north__fxName:"none"
-	*/
-	layoutSettings_Inner = {
-		applyDefaultStyles:				true // basic styling for testing & demo purposes
-	,	minSize:						20 // TESTING ONLY
-	,	spacing_closed:					14
-	,	north__spacing_closed:			8
-	,	south__spacing_closed:			8
-	,	north__togglerLength_closed:	-1 // = 100% - so cannot 'slide open'
-	,	south__togglerLength_closed:	-1
-	,	fxName:							"slide" // do not confuse with "slidable" option!
-	,	fxSpeed_open:					1000
-	,	fxSpeed_close:					2500
-	,	fxSettings_open:				{ easing: "easeInQuint" }
-	,	fxSettings_close:				{ easing: "easeOutQuint" }
-	,	north__fxName:					"none"
-	,	south__fxName:					"drop"
-	,	south__fxSpeed_open:			500
-	,	south__fxSpeed_close:			1000
-	//,	initClosed:						true
-	,	center__minWidth:				200
-	,	center__minHeight:				200
-	};
 
-
-	/*
-	*#######################
-	* OUTER LAYOUT SETTINGS
-	*#######################
-	*
-	* This configuration illustrates how extensively the layout can be customized
-	* ALL SETTINGS ARE OPTIONAL - and there are more available than shown below
-	*
-	* These settings are set in 'sub-key format' - ALL data must be in a nested data-structures
-	* All default settings (applied to all panes) go inside the defaults:{} key
-	* Pane-specific settings go inside their keys: north:{}, south:{}, center:{}, etc
-	*/
-	var layoutSettings_Outer = {
-		name: "outerLayout" // NO FUNCTIONAL USE, but could be used by custom code to 'identify' a layout
-		// options.defaults apply to ALL PANES - but overridden by pane-specific settings
-	,	defaults: {
-			size:					"auto"
-		,	minSize:				50
-		,	paneClass:				"pane" 		// default = 'ui-layout-pane'
-		,	resizerClass:			"resizer"	// default = 'ui-layout-resizer'
-		,	togglerClass:			"toggler"	// default = 'ui-layout-toggler'
-		,	buttonClass:			"button"	// default = 'ui-layout-button'
-		,	contentSelector:		".content"	// inner div to auto-size so only it scrolls, not the entire pane!
-		,	contentIgnoreSelector:	"span"		// 'paneSelector' for content to 'ignore' when measuring room for content
-		,	togglerLength_open:		35			// WIDTH of toggler on north/south edges - HEIGHT on east/west edges
-		,	togglerLength_closed:	35			// "100%" OR -1 = full height
-		,	hideTogglerOnSlide:		true		// hide the toggler when pane is 'slid open'
-		,	togglerTip_open:		"Close This Pane"
-		,	togglerTip_closed:		"Open This Pane"
-		,	resizerTip:				"Resize This Pane"
-		//	effect defaults - overridden on some panes
-		,	fxName:					"slide"		// none, slide, drop, scale
-		,	fxSpeed_open:			750
-		,	fxSpeed_close:			1500
-		,	fxSettings_open:		{ easing: "easeInQuint" }
-		,	fxSettings_close:		{ easing: "easeOutQuint" }
-	}
-	,	north: {
-			spacing_open:			1			// cosmetic spacing
-		,	togglerLength_open:		0			// HIDE the toggler button
-		,	togglerLength_closed:	-1			// "100%" OR -1 = full width of pane
-		,	resizable: 				false
-		,	slidable:				false
-		//	override default effect
-		,	fxName:					"none"
-		}
-	,	south: {
-			maxSize:				200
-		,	spacing_closed:			0			// HIDE resizer & toggler when 'closed'
-		,	slidable:				false		// REFERENCE - cannot slide if spacing_closed = 0
-		,	initClosed:				true
-		//	CALLBACK TESTING...
-		,	onhide_start:			function () { return confirm("START South pane hide \n\n onhide_start callback \n\n Allow pane to hide?"); }
-		,	onhide_end:				function () { alert("END South pane hide \n\n onhide_end callback"); }
-		,	onshow_start:			function () { return confirm("START South pane show \n\n onshow_start callback \n\n Allow pane to show?"); }
-		,	onshow_end:				function () { alert("END South pane show \n\n onshow_end callback"); }
-		,	onopen_start:			function () { return confirm("START South pane open \n\n onopen_start callback \n\n Allow pane to open?"); }
-		,	onopen_end:				function () { alert("END South pane open \n\n onopen_end callback"); }
-		,	onclose_start:			function () { return confirm("START South pane close \n\n onclose_start callback \n\n Allow pane to close?"); }
-		,	onclose_end:			function () { alert("END South pane close \n\n onclose_end callback"); }
-		//,	onresize_start:			function () { return confirm("START South pane resize \n\n onresize_start callback \n\n Allow pane to be resized?)"); }
-		,	onresize_end:			function () { alert("END South pane resize \n\n onresize_end callback \n\n NOTE: onresize_start event was skipped."); }
-		}
-	,	west: {
-			size:					250
-		,	spacing_closed:			21			// wider space when closed
-		,	togglerLength_closed:	21			// make toggler 'square' - 21x21
-		,	togglerAlign_closed:	"top"		// align to top of resizer
-		,	togglerLength_open:		0			// NONE - using custom togglers INSIDE west-pane
-		,	togglerTip_open:		"Close West Pane"
-		,	togglerTip_closed:		"Open West Pane"
-		,	resizerTip_open:		"Resize West Pane"
-		,	slideTrigger_open:		"click" 	// default
-		,	initClosed:				true
-		//	add 'bounce' option to default 'slide' effect
-		,	fxSettings_open:		{ easing: "easeOutBounce" }
-		}
-	,	east: {
-			size:					250
-		,	spacing_closed:			21			// wider space when closed
-		,	togglerLength_closed:	21			// make toggler 'square' - 21x21
-		,	togglerAlign_closed:	"top"		// align to top of resizer
-		,	togglerLength_open:		0 			// NONE - using custom togglers INSIDE east-pane
-		,	togglerTip_open:		"Close East Pane"
-		,	togglerTip_closed:		"Open East Pane"
-		,	resizerTip_open:		"Resize East Pane"
-		,	slideTrigger_open:		"mouseover"
-		,	initClosed:				true
-		//	override default effect, speed, and settings
-		,	fxName:					"drop"
-		,	fxSpeed:				"normal"
-		,	fxSettings:				{ easing: "" } // nullify default easing
-		}
-	,	center: {
-			paneSelector:			"#mainContent" 			// sample: use an ID to select pane instead of a class
-		,	onresize:				"innerLayout.resizeAll"	// resize INNER LAYOUT when center pane resizes
-		,	minWidth:				200
-		,	minHeight:				200
-		}
-	};
+	
+	
+	
 
 </script>
 
 </head>
-<body class="ui-layout-container" style="position: relative; height: 100%; overflow-x: hidden; overflow-y: hidden; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; ">
+<body class="ui-layout-container">
 
-<div class="ui-layout-west pane pane-west" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; right: auto; z-index: 1; left: 0px; width: 248px; top: 122px; bottom: 0px; height: 461px; position: absolute; visibility: visible; display: none; "><span id="west-closer" class="button-close button-close-west" title="Close"></span><span class="pin-button button-pin button-pin-west button-pin-up button-pin-west-up" pin="up" title="Pin"></span>
+
+<div class="ui-layout-west pane pane-west">
+
+<span id="west-closer" class="button-close button-close-west" style=" overflow:auto" title="Close"></span>
+<span class="pin-button button-pin button-pin-west button-pin-up button-pin-west-up" pin="up" title="Pin"></span>
 
 	<div class="header" style="font-size:16px" >图层控制</div>
 
-	<div class="content" style="position: relative; ">
-		<h3><b>Outer Layout</b></h3>
-		
+	
+<div id="sidetree">
+
+
+<ul id="tree">
+    <li><button class="seeimg"></button><span><strong>实况监测</strong></span>
+	  <ul>
+	    <li><button  class="seeimg"></button><span><strong>卫星图像</strong></span>
+	      <ul>
+		    <li><a href="?/assessment/index.cfm">红外通道</a></li>
+		    <li><a href="?/assessment/index.cfm">水汽通道</a></li>
+		    <li><a href="?/assessment/index.cfm">可见光通道</a></li>
+	      </ul>
+	    </li>
+
+	    <li><button class="seeimg"></button><span><strong>雷达图像</strong></span></li>
+	    <li><button  class="seeimg"></button><span><strong>自动站</strong></span>
+	      <ul>
+		     <li><a href="?/assessment/index.cfm">整点雨量</a></li>
+		     <li><div style="height:40px; width:100px; background:#999999">
+		 	     <input type="checkbox" value="温度"/>
+		      </div>
+			 </li>
+		     <li>最近1小时累计雨量</li>
+		     <li>最近2小时累计雨量</li>
+		     <li>最近3小时累计雨量</li>
+	      </ul>
+	    </li>
+       </ul>
+     </li>
+	 
+
+
+     <li><button  class="seeimg"></button><span><strong>天气预报</strong></span>
+	  <ul>
+	    <li><button class="seeimg"></button><span><strong>0-48h预报</strong></span></li>
+
+	    <li><button class="seeimg"></button><span><strong>雷达图像</strong></span></li>
+	    <li><button class="seeimg" onclick="togger_layer(map,1)"></button><span><strong>自动站</strong></span>
+	      <ul>
+		     <li><a href="?/assessment/index.cfm">整点雨量</a></li>
+		     <li><div style="height:40px; width:100px; background:#999999">
+		 	     <input type="checkbox" value="温度"/>
+		      </div>
+			 </li>
+		     <li>最近1小时累计雨量</li>
+		     <li>最近2小时累计雨量</li>
+		     <li>最近3小时累计雨量</li>
+	      </ul>
+	    </li>
+       </ul>
+     </li>
+	 
+    <li><button class="seeimg"></button><span><strong>灾情模拟</strong></span>
+	  <ul>
+	    <li><button class="seeimg" onclick="togger_layer(map,0)"></button><span><strong>城市积水</strong></span></li>
+
+	    <li><button  class="seeimg"></button><span><strong>水文模拟</strong></span></li>
+	    <li><button class="seeimg"></button><span><strong>道路积冰、积雪</strong></span></li>
+		<li><button class="seeimg"></button><span><strong>持续高温、低温</strong></span></li>
+       </ul>
+     </li>
+
+</div>
+
+</div>
+
+	
 	</div>
 
 	<div class="footer">Automatically positioned footer</div>
@@ -287,10 +283,14 @@
 <div class="ui-layout-north pane pane-north" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; bottom: auto; width: auto; z-index: 1; top: 0px; left: 0px; right: 0px; height: 120px; display: block; visibility: visible; ">
 	
 	<div class="content" style="position: relative; ">
-		<span style="float:left">LOGO</span><span style="float:right; font-size:14px">登录</span>
+		<span style="float:left">ACIEWE</span><span style="float:right; font-size:14px">登录</span>
 	</div>
 	<div class="content" style="position: relative; background-color:#f4f4f4;  height:20px ">
 		<button>首页</button><button>首页</button><button>首页</button><button>首页</button><button>首页</button>
+		 <button onClick="map.removeLayer(lilaojsonLayer)">remove</button>
+	 <button onClick="map.addLayer(lilaojsonLayer)">add</button>
+	  <button onClick="map.removeLayer(aws5layer)">remove_aws</button>
+	 <button onClick="map.addLayer(aws5layer)">add_aws</button>
 	</div>
 	
 </div>
@@ -307,9 +307,22 @@
 <div id="mainContent" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; z-index: 1; top: 122px; bottom: 0px; left: 21px; right: 21px; width: 1292px; height: 431px; display: block; visibility: visible; " class="pane pane-center pane-hover pane-center-hover pane-open-hover pane-center-open-hover">
 
 <div id="logo" style="width:100%; height:30px; background:#33CC99"></div>
-
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc"></div>
 </div>
 
+<script type="text/javascript">
 
+		
+      	
+		
+		
+
+$("#tree").treeview({
+				collapsed: true,
+				animated: "medium",
+				control:"#sidetreecontrol",
+				persist: "location"
+			});
+</script>
 
  </body></html>

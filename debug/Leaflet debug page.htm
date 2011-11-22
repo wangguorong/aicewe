@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)http://leaflet.cloudmade.com/debug/geojson/geojson.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=GBK">
+	<title>Leaflet debug page</title>
+
+	<link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.css">
+	<!--[if lte IE 8]><link rel="stylesheet" href="../../dist/leaflet.ie.css" /><![endif]-->
+	
+	<link rel="stylesheet" href="http://leaflet.cloudmade.com/debug/css/screen.css">
+<!--	     <script>
+		L_PREFER_CANVAS = true; // experimental
+	</script>-->
+	<script src="./Leaflet debug page_files/leaflet-include.js"></script><script type="text/javascript" src="./Leaflet debug page_files/Leaflet.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Util.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Class.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Events.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Browser.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Point.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Bounds.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Transformation.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/LineUtil.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/PolyUtil.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/DomEvent.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/DomEvent.DoubleTap.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/DomUtil.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Draggable.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Transition.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Transition.Native.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Transition.Timer.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/LatLng.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/LatLngBounds.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Projection.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Projection.SphericalMercator.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Projection.LonLat.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Projection.Mercator.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/CRS.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/CRS.EPSG3857.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/CRS.EPSG4326.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/CRS.EPSG3395.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Map.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Map.Geolocation.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Map.Popup.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Map.PanAnimation.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Map.ZoomAnimation.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Map.Control.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/LayerGroup.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/FeatureGroup.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/TileLayer.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/TileLayer.WMS.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/TileLayer.Canvas.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/ImageOverlay.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Popup.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Icon.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Marker.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Marker.Popup.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Path.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Path.Popup.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Path.SVG.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Path.VML.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Path.Canvas.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Polyline.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Polyline.Canvas.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Polygon.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Polygon.Canvas.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/MultiPoly.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Circle.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Circle.Canvas.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/CircleMarker.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/GeoJSON.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Handler.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/MapDrag.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/TouchZoom.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/DoubleClickZoom.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/ScrollWheelZoom.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/ShiftDragZoom.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/MarkerDrag.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Control.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Control.Zoom.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Control.Attribution.js"></script>
+<script type="text/javascript" src="./Leaflet debug page_files/Control.Layers.js"></script>
+
+</head>
+<body style="">
+
+	<div id="map" style="width: 600px; height: 600px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); position: relative; " class=" leaflet-container leaflet-fade-anim"><div class="leaflet-map-pane" style="-webkit-transform: translate3d(33px, -20px, 0px); "><div class="leaflet-tile-pane"><div class="leaflet-layer"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(198px, 115px, 0px); " src="./Leaflet debug page_files/63.png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(198px, -141px, 0px); " src="./Leaflet debug page_files/62.png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(-58px, 115px, 0px); " src="./Leaflet debug page_files/63(1).png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(454px, 115px, 0px); " src="./Leaflet debug page_files/63(2).png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(198px, 371px, 0px); " src="./Leaflet debug page_files/64.png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(-58px, -141px, 0px); " src="./Leaflet debug page_files/62(1).png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(454px, -141px, 0px); " src="./Leaflet debug page_files/62(2).png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(-58px, 371px, 0px); " src="./Leaflet debug page_files/64(1).png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(454px, 371px, 0px); " src="./Leaflet debug page_files/64(2).png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(-314px, 115px, 0px); " src="./Leaflet debug page_files/63(3).png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(-314px, -141px, 0px); " src="./Leaflet debug page_files/62(3).png"><img class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; -webkit-transform: translate3d(-314px, 371px, 0px); " src="./Leaflet debug page_files/64(3).png"></div></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"><img src="./Leaflet debug page_files/marker-shadow.png" class="leaflet-marker-shadow" style="margin-left: -13px; margin-top: -41px; width: 41px; height: 41px; -webkit-transform: translate3d(266px, 325px, 0px); "></div><div class="leaflet-overlay-pane"><svg style="-webkit-transform: translate3d(-333px, -280px, 0px); " width="1200" height="1200" viewBox="-333 -280 1200 1200"><g><path stroke-linejoin="round" stroke-linecap="round" fill="none" stroke="red" stroke-opacity="0.5" stroke-width="5" class="leaflet-clickable" d="M266 371L357 280L448 371L539 280"></path></g><g><path stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="green" stroke-opacity="0.5" stroke-width="5" fill="green" fill-opacity="0.2" class="leaflet-clickable" d="M84 371L175 371L175 280L84 280L84 371z"></path></g><g><path stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#ff7800" stroke-opacity="0.5" stroke-width="5" fill="#ff7800" fill-opacity="0.2" class="leaflet-clickable" d="M84 234L130 234L130 189L84 189L84 234z"></path></g><g><path stroke-linejoin="round" stroke-linecap="round" fill-rule="evenodd" stroke="#ff7800" stroke-opacity="0.5" stroke-width="5" fill="#ff7800" fill-opacity="0.2" class="leaflet-clickable" d="M130 189L130 143L175 143L175 189L130 189z"></path></g></svg></div><div class="leaflet-marker-pane"><img src="./Leaflet debug page_files/marker.png" class="leaflet-marker-icon leaflet-clickable" style="margin-left: -13px; margin-top: -41px; width: 25px; height: 41px; -webkit-transform: translate3d(266px, 325px, 0px); z-index: 325; "></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-control"><a href="http://leaflet.cloudmade.com/debug/geojson/geojson.html#" title="Zoom in" class="leaflet-control-zoom-in"></a><a href="http://leaflet.cloudmade.com/debug/geojson/geojson.html#" title="Zoom out" class="leaflet-control-zoom-out"></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control">Powered by <a href="http://leaflet.cloudmade.com/">Leaflet</a> — Map data &#169; 2011 OpenStreetMap contributors, Imagery &#169; 2011 CloudMade</div></div></div></div>
+	<button id="populate">Populate with 10 markers</button>
+      <button onClick="map.removeLayer(geojson)">remove</button>
+	 <button onClick="map.addLayer(geojson)">add</button>
+	 
+	<script type="text/javascript" src="./Leaflet debug page_files/geojson-sample.js"></script>
+	<script type="text/javascript" src="./Leaflet debug page_files/lilao_poly.js"></script>
+	<script type="text/javascript">
+	
+
+		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+			cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution});
+	
+		var map = new L.Map('map', {
+			center: new L.LatLng(40.78, 116.37), 
+			zoom: 7, 
+			layers: [cloudmade]
+		});
+		
+		var geojson = new L.GeoJSON();
+		
+		
+		geojson.on('featureparse', function(e) {
+			// you can style features depending on their properties, etc.
+			 
+		    var popupContent = "";
+		    
+		  
+		  
+		    e.layer.bindPopup(popupContent);
+		    if (e.properties && e.properties.style && e.layer.setStyle) {
+		        e.layer.setStyle(e.properties.style);
+		    }
+		});
+		
+		geojson.addGeoJSON(lilao_poly);
+		
+		map.addLayer(geojson);
+	</script>
+
+</body></html>
