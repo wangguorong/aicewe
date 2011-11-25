@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0057)http://layout.jquery-dev.net/demos/container_margins.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+
+	<title>Layout Container with Margins</title>
+
+	<link type="text/css" rel="stylesheet" href="./Layout Container with Margins_files/layout-default-latest.css">
+	<style type="text/css">
+	html, body {
+		background:	#666;
+		width:		100%;
+		height:		100%;					
+		padding:	0;
+		margin:		0;
+		overflow:	auto; /* when page gets too small for container min-width/height */
+	}
+	#container {
+		background:	#999;
+		min-height:	300px;
+		min-width:	600px;
+		position:	absolute;
+		top:		50px;	/* margins in pixels */
+		bottom:		50px;	/* could also use a percent */
+		left:		50px;
+		right:		50px;
+	}
+	.pane {
+		display:	none; /* will appear when layout inits */
+	}
+	</style>
+
+	<script type="text/javascript" src="./Layout Container with Margins_files/jquery-latest.js"></script>
+	<script type="text/javascript" src="./Layout Container with Margins_files/jquery-ui-latest.js"></script>
+	<script type="text/javascript" src="./Layout Container with Margins_files/jquery.layout-latest.js"></script>
+	<script type="text/javascript">
+
+	$(document).ready(function () {
+		$('#container').layout();
+	});
+
+	</script>
+
+</head>
+<body>
+<div id="container" class="ui-layout-container" style="overflow-x: hidden; overflow-y: hidden; ">
+	<div class="pane ui-layout-center ui-layout-pane ui-layout-pane-center ui-layout-pane-hover ui-layout-pane-center-hover ui-layout-pane-open-hover ui-layout-pane-center-open-hover" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; z-index: 1; position: absolute; display: block; visibility: visible; top: 56px; bottom: 56px; left: 206px; right: 206px; width: 832px; height: 387px; ">
+		Center
+		<p><a href="http://layout.jquery-dev.net/demos.html"><b>Go to the Demos page</b></a></p>
+	</div>
+	<div class="pane ui-layout-north ui-layout-pane ui-layout-pane-north" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; bottom: auto; width: auto; z-index: 1; top: 0px; left: 0px; right: 0px; height: 28px; display: block; visibility: visible; ">North</div>
+	<div class="pane ui-layout-south ui-layout-pane ui-layout-pane-south" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; top: auto; width: auto; z-index: 1; bottom: 0px; left: 0px; right: 0px; height: 28px; display: block; visibility: visible; ">South</div>
+	<div class="pane ui-layout-east ui-layout-pane ui-layout-pane-east" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; left: auto; z-index: 1; right: 0px; width: 178px; top: 56px; bottom: 56px; height: 387px; position: absolute; display: block; visibility: visible; ">East</div>
+	<div class="pane ui-layout-west ui-layout-pane ui-layout-pane-west" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; width: 178px; height: 387px; visibility: visible; display: block; position: absolute; top: 56px; bottom: 56px; left: 0px; right: auto; z-index: 1; ">West</div>
+<div id="" style="position: absolute; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1px; text-align: left; overflow-x: hidden; overflow-y: hidden; z-index: 2; top: 50px; cursor: n-resize; width: 1266px; height: 6px; left: 0px; " class="ui-layout-resizer ui-layout-resizer-north ui-layout-resizer-open ui-layout-resizer-north-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; text-align: center; font-size: 1px; z-index: 1; visibility: visible; cursor: pointer; width: 48px; height: 6px; left: 608px; top: 0px; " class="ui-layout-toggler ui-layout-toggler-north ui-layout-toggler-open ui-layout-toggler-north-open" title="Close"></div></div><div id="" style="position: absolute; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1px; text-align: left; overflow-x: hidden; overflow-y: hidden; z-index: 2; bottom: 50px; cursor: s-resize; width: 1266px; height: 6px; left: 0px; " class="ui-layout-resizer ui-layout-resizer-south ui-layout-resizer-open ui-layout-resizer-south-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; text-align: center; font-size: 1px; z-index: 1; visibility: visible; cursor: pointer; width: 48px; height: 6px; left: 608px; top: 0px; " class="ui-layout-toggler ui-layout-toggler-south ui-layout-toggler-open ui-layout-toggler-south-open" title="Close"></div></div><div style="position: absolute; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1px; text-align: left; overflow-x: hidden; overflow-y: hidden; z-index: 2; left: 200px; cursor: w-resize; height: 409px; width: 6px; top: 56px; " class="ui-layout-resizer ui-layout-resizer-west ui-layout-resizer-open ui-layout-resizer-west-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; text-align: center; font-size: 1px; z-index: 1; visibility: visible; cursor: pointer; height: 48px; width: 6px; top: 179px; left: 0px; " class="ui-layout-toggler ui-layout-toggler-west ui-layout-toggler-open ui-layout-toggler-west-open" title="Close"></div></div><div id="" style="position: absolute; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1px; text-align: left; overflow-x: hidden; overflow-y: hidden; z-index: 2; right: 200px; cursor: e-resize; height: 409px; width: 6px; top: 56px; " class="ui-layout-resizer ui-layout-resizer-east ui-layout-resizer-open ui-layout-resizer-east-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; text-align: center; font-size: 1px; z-index: 1; visibility: visible; cursor: pointer; height: 48px; width: 6px; top: 179px; left: 0px; " class="ui-layout-toggler ui-layout-toggler-east ui-layout-toggler-open ui-layout-toggler-east-open" title="Close"></div></div></div>
+
+</body></html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0061)http://layout.jquery-dev.net/demos/container_with_layout.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+
+	<title>Layout Container plus Wrapper-Layout</title>
+
+	<link type="text/css" rel="stylesheet" href="./Layout Container plus Wrapper-Layout_files/layout-default-latest.css">
+	<style type="text/css">
+	html, body {
+		background:	#666;
+		width:		100%;
+		height:		1000px;					
+		padding:	0;
+		margin:		0;
+		overflow:	auto; /* when page gets too small */
+	}
+	#container {
+		background:	777;
+		/* HEIGHT */
+		height:		800px;					
+		min-height:	300px;
+		_height:	300px; /* min-height for IE6 */
+		/* WIDTH */
+		width:		100%;
+		max-width:	900px;
+		min-width:	700px;
+		_width:		700px; /* min-width for IE6 */
+		/* HORIZONTAL CENTERING */
+		margin:		0 auto;
+	}
+	/*
+	 *	Container sizing
+	 *
+	 *	Borders and padding are normally *added* to the width/height of the DIV
+	 *	However you can get height:100% AND padding/borders by using a nested layout. 
+	 *	The outer-layout is just a single pane: center, which is where you add your vertical padding.
+	 *	Inside this is your *real layout*. 
+	 */
+	#paddingWrapper {
+		background:	#999;
+		padding:	20px 10px;
+		border:		4px solid #BBB;
+	}
+	.pane {
+		display:	none; /* will appear when layout inits */
+	}
+	</style>
+
+	<script type="text/javascript" src="./Layout Container plus Wrapper-Layout_files/jquery-latest.js"></script>
+	<script type="text/javascript" src="./Layout Container plus Wrapper-Layout_files/jquery-ui-latest.js"></script>
+	<script type="text/javascript" src="./Layout Container plus Wrapper-Layout_files/jquery.layout-latest.js"></script>
+	<script type="text/javascript">
+
+	$(document).ready(function () {
+		$('#container').layout();
+		$('#paddingWrapper').layout();
+	});
+
+	</script>
+
+</head>
+<body>
+<div id="container" class="ui-layout-container" style="overflow-x: hidden; overflow-y: hidden; position: relative; ">
+	<div id="paddingWrapper" class="pane ui-layout-center ui-layout-pane ui-layout-pane-center ui-layout-container ui-layout-pane-hover ui-layout-pane-center-hover ui-layout-pane-open-hover ui-layout-pane-center-open-hover" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; z-index: 1; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 872px; height: 619px; position: absolute; display: block; visibility: visible; overflow-x: hidden; overflow-y: hidden; ">
+		<div class="pane ui-layout-center ui-layout-pane ui-layout-pane-center ui-layout-pane-hover ui-layout-pane-center-hover ui-layout-pane-open-hover ui-layout-pane-center-open-hover" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; z-index: 1; position: absolute; display: block; visibility: visible; top: 76px; bottom: 76px; left: 216px; right: 216px; width: 438px; height: 485px; ">
+			Center
+			<p><a href="http://layout.jquery-dev.net/demos.html"><b>Go to the Demos page</b></a></p>
+		</div>
+		<div class="pane ui-layout-north ui-layout-pane ui-layout-pane-north" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; bottom: auto; width: auto; z-index: 1; top: 20px; left: 10px; right: 10px; display: block; visibility: visible; height: 28px; ">North</div>
+		<div class="pane ui-layout-south ui-layout-pane ui-layout-pane-south" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; top: auto; width: auto; z-index: 1; bottom: 20px; left: 10px; right: 10px; display: block; visibility: visible; height: 28px; ">South</div>
+		<div class="pane ui-layout-east ui-layout-pane ui-layout-pane-east" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; left: auto; z-index: 1; right: 10px; width: 178px; position: absolute; display: block; visibility: visible; top: 76px; bottom: 76px; height: 485px; ">East</div>
+		<div class="pane ui-layout-west ui-layout-pane ui-layout-pane-west" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; right: auto; z-index: 1; left: 10px; width: 178px; position: absolute; display: block; visibility: visible; top: 76px; bottom: 76px; height: 485px; ">West</div>
+	<div id="" style="position: absolute; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1px; text-align: left; overflow-x: hidden; overflow-y: hidden; z-index: 2; cursor: n-resize; top: 70px; width: 872px; height: 6px; left: 10px; " class="ui-layout-resizer ui-layout-resizer-north ui-layout-resizer-open ui-layout-resizer-north-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; text-align: center; font-size: 1px; z-index: 1; visibility: visible; cursor: pointer; width: 48px; height: 6px; left: 411px; top: 0px; " class="ui-layout-toggler ui-layout-toggler-north ui-layout-toggler-open ui-layout-toggler-north-open" title="Close"></div></div><div id="" style="position: absolute; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1px; text-align: left; overflow-x: hidden; overflow-y: hidden; z-index: 2; cursor: s-resize; bottom: 70px; width: 872px; height: 6px; left: 10px; " class="ui-layout-resizer ui-layout-resizer-south ui-layout-resizer-open ui-layout-resizer-south-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; text-align: center; font-size: 1px; z-index: 1; visibility: visible; cursor: pointer; width: 48px; height: 6px; left: 411px; top: 0px; " class="ui-layout-toggler ui-layout-toggler-south ui-layout-toggler-open ui-layout-toggler-south-open" title="Close"></div></div><div id="" style="position: absolute; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1px; text-align: left; overflow-x: hidden; overflow-y: hidden; z-index: 2; left: 210px; cursor: w-resize; height: 507px; width: 6px; top: 76px; " class="ui-layout-resizer ui-layout-resizer-west ui-layout-resizer-open ui-layout-resizer-west-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; text-align: center; font-size: 1px; z-index: 1; visibility: visible; cursor: pointer; height: 48px; width: 6px; top: 228px; left: 0px; " class="ui-layout-toggler ui-layout-toggler-west ui-layout-toggler-open ui-layout-toggler-west-open" title="Close"></div></div><div id="" style="position: absolute; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1px; text-align: left; overflow-x: hidden; overflow-y: hidden; z-index: 2; right: 210px; cursor: e-resize; height: 507px; width: 6px; top: 76px; " class="ui-layout-resizer ui-layout-resizer-east ui-layout-resizer-open ui-layout-resizer-east-open" title="Resize" aria-disabled="false"><div id="" style="position: absolute; display: block; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; text-align: center; font-size: 1px; z-index: 1; visibility: visible; cursor: pointer; height: 48px; width: 6px; top: 228px; left: 0px; " class="ui-layout-toggler ui-layout-toggler-east ui-layout-toggler-open ui-layout-toggler-east-open" title="Close"></div></div></div>
+</div>
+
+</body></html>

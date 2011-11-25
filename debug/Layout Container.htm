@@ -1,6 +1,39 @@
-// JavaScript Document
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0049)http://layout.jquery-dev.net/demos/container.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
 
-	var layoutSettings_Outer = {
+	<title>Layout Container</title>
+
+	<link type="text/css" rel="stylesheet" href="./Layout Container_files/layout-default-latest.css">
+	<style type="text/css">
+	html, body {
+		background:	#666;
+		width:		100%;
+		height:		100%;					
+		padding:	0;
+		margin:		0;
+		overflow:	auto; /* when page gets too small */
+	}
+	#container {
+		background:	#999;
+		height:		100%;
+		margin:		0 auto;
+		width:		100%;
+		max-width:	900px;
+		min-width:	700px;
+		_width:		700px; /* min-width for IE6 */
+	}
+	.pane {
+		display:	none; /* will appear when layout inits */
+	}
+	</style>
+
+	<script type="text/javascript" src="./Layout Container_files/jquery-latest.js"></script>
+	<script type="text/javascript" src="./Layout Container_files/jquery-ui-latest.js"></script>
+	<script type="text/javascript" src="./Layout Container_files/jquery.layout-latest.js"></script>
+	<script type="text/javascript">
+    var layoutSettings_Outer = {
 		name: "outerLayout" // NO FUNCTIONAL USE, but could be used by custom code to 'identify' a layout
 		// options.defaults apply to ALL PANES - but overridden by pane-specific settings
 	,	defaults: {
@@ -87,25 +120,21 @@
 		,	minWidth:				200
 		,	minHeight:				200
 		}
-		
-		
-		
-		//////////////////////////////////////
-		
 	
-		
-		/////////////////////////////////////////////
 	};
+	$(document).ready(function () {
+		$('#container').layout(layoutSettings_Outer);
+	});
+
+	</script>
+
+</head>
+<body>
+<div id="container" >
 
 
-       function config_tree(){
-		outerLayout = $("body").layout( layoutSettings_Outer );
-		outerLayout.addCloseBtn("#west-closer", "west");
-		outerLayout.addCloseBtn("#east-closer", "east");
-		$("a").each(function () {
-			var path = document.location.href;
-			if (path.substr(path.length-1)=="#") path = path.substr(0,path.length-1);
-			if (this.href.substr(this.href.length-1) == "#") this.href = path +"#";
-		});
-		
-	   }
+
+
+</div>
+
+</body></html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0061)http://layout.jquery-dev.net/demos/container_with_layout.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+
+	<title>Layout Container plus Wrapper-Layout</title>
+<link rel="stylesheet" type="text/css" href="../css/complex.css">
+	<link type="text/css" rel="stylesheet" href="../css/layout-default-latest.css">
+	<link rel="stylesheet" type="text/css" href="../js/leaflet/dist/leaflet.css" />
+	<link rel="stylesheet" href="../js/jquery.treeview/jquery.treeview.css" />
+	<style type="text/css">
+	html, body {
+		background::#FFFFFF;
+		width:		100%;
+		height:		1500px;					
+		padding:	0;
+		margin:		0;
+		overflow:	auto; /* when page gets too small */;
+		
+	}
+	@font-face {
+  font-family: 'Droid Sans';
+  src: url(Droid_Sans.ttf);
+}
+
+	#container {
+		background:	777;
+		/* HEIGHT */
+		height:		800px;					
+		min-height:	300px;
+		_height:	300px; /* min-height for IE6 */
+		/* WIDTH */
+		width:		100%;
+	
+		margin:		0 auto;
+	}
+	/*
+	 *	Container sizing
+	 *
+	 *	Borders and padding are normally *added* to the width/height of the DIV
+	 *	However you can get height:100% AND padding/borders by using a nested layout. 
+	 *	The outer-layout is just a single pane: center, which is where you add your vertical padding.
+	 *	Inside this is your *real layout*. 
+	 */
+	#paddingWrapper {
+		background:	#999;
+		padding:	20px 10px;
+		border:		4px solid #BBB;
+	}
+	.pane {
+		display:	none; /* will appear when layout inits */
+	}
+	</style>
+
+	<script type="text/javascript" src="../js/jquery-latest.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-latest.js"></script>
+	<script type="text/javascript" src="../js/jquery.layout-latest.js"></script>
+	<script type="text/javascript" src="../js/leaflet/debug/leaflet-include.js"></script>
+	<script type="text/javascript" src="../js/treelist.js"></script>
+	<!--<script type="text/javascript" src="../js/complex.js"></script>-->
+     <script src="../js/jquery.treeview/lib/jquery.cookie.js" type="text/javascript"></script>
+<script src="../js/jquery.treeview/jquery.treeview.js" type="text/javascript"></script>
+
+<script src="../js/www/my.js" type="text/javascript"></script>
+
+
+<script src="../media/lilao/aws_point.js" type="text/javascript"></script>
+	<script src="../media/lilao/lilao_poly.js" type="text/javascript"></script>
+	<script type="text/javascript">
+    
+
+	$(document).ready(function () {
+		outerLayout=$('#container').layout({
+   defaults: {
+      fxName:               "slide"
+   ,  fxSpeed:               "slow"
+   ,  spacing_closed:        14
+   
+   
+   
+   }
+   ,	west: {
+			size:					250
+		,	spacing_closed:			15			// wider space when closed
+		,	togglerLength_closed:	15			// make toggler 'square' - 21x21
+		,	togglerAlign_closed:	"top"		// align to top of resizer
+		,	slideTrigger_open:		"click" 	// default
+		,	initClosed:				false
+		//	add 'bounce' option to default 'slide' effect
+		
+		}
+,	east: {
+			size:					250
+		,	spacing_closed:			15			// wider space when closed
+		,	togglerLength_closed:	15			// make toggler 'square' - 21x21
+		,	togglerAlign_closed:	"top"		// align to top of resizer
+		,	togglerLength_open:		0 			// NONE - using custom togglers INSIDE east-pane
+		,	togglerTip_open:		"Close East Pane"
+		,	togglerTip_closed:		"Open East Pane"
+		,	resizerTip_open:		"Resize East Pane"
+		,	slideTrigger_open:		"mouseover"
+		,	initClosed:				true
+		//	override default effect, speed, and settings
+		,	fxName:					"drop"
+		,	fxSpeed:				"normal"
+		,	fxSettings:				{ easing: "" } // nullify default easing
+		}
+,  south: {
+      fxName:                "none"
+   ,  spacing_closed:        8
+   ,  togglerLength_closed:  "100%"
+   ,  initClosed:            true
+   }
+});
+outerLayout.addCloseBtn("#west-closer", "west");
+		outerLayout.addCloseBtn("#east-closer", "east");
+
+$("#tree").treeview({
+				collapsed: true,
+				animated: "medium",
+				control:"#sidetreecontrol",
+				persist: "location"
+			});
+		//outerLayout.addCloseBtn("#west-closer", "west");
+		 var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997@2x/256/{z}/{x}/{y}.png',
+			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18});
+		
+		map = new L.Map('map', {layers: [cloudmade]});
+		map.setView(new L.LatLng(39.88, 116.4), 12)
+		
+		
+	AddLilaoFeature(map)
+		AddAws5Feature(map)
+		AddSatelliteImg(map)
+		
+		
+		//var  myposition = geolocation()
+		
+		map.panTo(new L.LatLng(39.89, 116.4))
+		$('#lilao>div').show()
+	});
+
+	</script>
+
+</head>
+<body>
+<div style="width:100%; height:50px; background: -webkit-gradient(linear, left top, left bottom, 
+                             from(#bbb), to(#666666))"></div>
+<div id="container" class="ui-layout-container">
+
+	<div class="ui-layout-west pane pane-west">
+
+     <span id="west-closer" class="button-close button-close-west" style=" overflow:auto;" title="Close"></span>
+     
+	 <div class="header" style="font-size:16px" >图层控制</div>
+	    <div id="sidetree">
+
+
+<ul id="tree">
+    <li><button class="seeimg"></button><span><strong>实况监测</strong></span>
+	  <ul>
+	    <li><button id="satellite_image" class="seeimg" onclick="togger_visible('satellite_image')"></button><span><strong>卫星图像</strong></span>
+	      <ul>
+		    <li><a href="">红外通道</a></li>
+		    <li><a href="?/assessment/index.cfm">水汽通道</a></li>
+		    <li><a href="?/assessment/index.cfm">可见光通道</a></li>
+	      </ul>
+	    </li>
+		 <div style="margin-left:15px; font-size:14px">透明度<input  id="satellite_opacity" type="range" min="0" max="100" value="70" onchange="change_opacity()" /></div>
+
+	    <li><button id="radar_image" class="seeimg"></button><span><strong>雷达图像</strong></span></li>
+	    <li><button  id="aws5" class="seeimg" onclick="togger_layer(map,1)"></button><span><strong>自动站</strong></span>
+	      <ul>
+		     <li><a href="?/assessment/index.cfm">整点雨量</a></li>
+		     <li><div style="height:40px; width:100px; background:#999999">
+		 	     <input type="checkbox" value="温度"/>
+		      </div>
+			 </li>
+		     <li>最近1小时累计雨量</li>
+		     <li>最近2小时累计雨量</li>
+		     <li>最近3小时累计雨量</li>
+	      </ul>
+	    </li>
+       </ul>
+     </li>
+	 
+
+
+     <li><button  class="seeimg"></button><span><strong>天气预报</strong></span>
+	  <ul>
+	    <li><button class="seeimg"></button><span><strong>0-48h预报</strong></span></li>
+
+	    <li><button class="seeimg"></button><span><strong>雷达图像</strong></span></li>
+	    <li><button  class="seeimg" onclick="togger_layer(map,1)"></button><span><strong>自动站</strong></span>
+	      <ul>
+		     <li><a href="?/assessment/index.cfm">整点雨量</a></li>
+		     <li><div style="height:40px; width:100px; background:#999999">
+		 	     <input type="checkbox" value="温度"/>
+		      </div>
+			 </li>
+		     <li>最近1小时累计雨量</li>
+		     <li>最近2小时累计雨量</li>
+		     <li>最近3小时累计雨量</li>
+	      </ul>
+	    </li>
+       </ul>
+     </li>
+	 
+    <li><button class="seeimg" onclick="test()"></button><span><strong>灾情模拟</strong></span>
+	  <ul>
+	    <li ><button id="lilao" class="seeimg" onclick="togger_layer(map,0)"></button><span>城市积水</span>
+		   <div style="width:auto; background-color:#FFCCFF;border-radius: 5px; margin-left:5px;">
+		     <select >
+			 <option>2011-11-11 11:11</option><option>b</option>
+			 </select>
+			 <div style="margin-left:5px;">
+			 <a style="border-radius: 5px;"><<</a><a style="border-radius: 5px; ">>></a>
+			 </div>
+		   </div>
+		     
+		</li>
+
+	    <li><button class="seeimg"  onclick="togger_layer(map,0)"></button><span>水文模拟</span></li>
+	    <li><button class="nosee"></button><span><strong>道路积冰、积雪</strong></span></li>
+		<li><button class="nosee"></button><span><strong>持续高温、低温</strong></span></li>
+       </ul>
+     </li>
+    </ul>
+</div>
+
+<div id="opacity">
+  <input type="range" min="0" max="100" value="70" style="vertical-align:bottom;"/>
+</div>
+	</div>
+	
+	<div class="ui-layout-east pane pane-east">
+	<span id="east-closer" class="button-close button-close-east" title="Close"></span><span class="pin-button button-pin button-pin-east button-pin-up button-pin-east-up" pin="up" title="Pin"></span>
+    
+	<div class="header">Outer - East</div>
+
+	<div class="subhead">I'm a subheader</div>
+
+	<div class="content" style="position: relative; ">
+		<h3><b>Inner Layout</b></h3>
+		<ul id="createInner">
+			<li><a href="http://layout.jquery-dev.net/demos/complex.html#" onclick="createInnerLayout(); return false;">CREATE Inner Layout</a></li>
+		</ul>
+		
+	</div>
+
+	<div class="footer" >I'm a footer</div>
+	<div class="footer">I'm another footer</div>
+	<div class="footer">Unlimited headers &amp; footers</div>
+
+</div>
+
+
+
+
+
+<div class="ui-layout-south pane pane-south" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; top: auto; width: auto; z-index: 1; bottom: 0px; left: 0px; right: 0px; height: 109px; display: none; visibility: visible; ">
+	<div class="header">Outer - South</div>
+	<div class="content" style="position: relative; background:#999999 ">
+		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p>
+		
+	</div>
+</div>
+
+	
+     <div id="mainContent" class="pane ui-layout-center">
+	        <div id="tools" style="width: 100%; height: 28px; border: 0px solid #ccc;background:#bbb; background-image:url(../img/guide.png); background-size:100%"></div>
+			<div id="map" style="width: 100%; height: 740px; border: 0px solid #ccc;"></div>
+     </div>
+</div>
+<div id="bottom_content" style="width:100%; height:600px; background:#FFFFFF; top:3px"></div>
+<div id="footer" style="width:100%; height:50px; background:#666666"></div>
+</body></html>

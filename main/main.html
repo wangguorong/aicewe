@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <!-- saved from url=(0047)http://layout.jquery-dev.net/demos/complex.html -->
-<html xmlns="http://www.w3.org/1999/xhtml" style="height: 100%; overflow-x: hidden; overflow-y: hidden; "><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html xmlns="http://www.w3.org/1999/xhtml" style="height: 2000px; overflow-x: visible; overflow-y: visible; "><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<meta name="language" content="en">
 	<!-- uncomment 'base' to view this page without external files
@@ -53,11 +53,42 @@
 	var aws5layer = new L.GeoJSON();
     var IsSee = [1,1]
 	var CurLayer = [lilaojsonLayer,aws5layer]
+	var CurOpacity = 1.0
 	/*
 	*#######################
 	*     ON PAGE LOAD
 	*#######################
 	*/
+	function setopacity(lilaojsonLayer){
+	    CurOpacity =  CurOpacity - 0.1
+		if (CurOpacity<0.1){ CurOpacity=0.1}
+		//alert("fillOpacity="+CurOpacity)
+	    map.removeLayer(lilaojsonLayer)
+		lilaojsonLayer= new L.GeoJSON();
+	    lilaojsonLayer.on("featureparse", function (e) {
+		    
+		    var popupContent = "";
+		    
+		    if (e.properties && e.properties.popupContent ) {
+		        popupContent += '<p>:'+e.properties.fid+' :'+e.properties.stype+'</p>'+'<p>'+e.properties.rain['01H']+''+'</p>'+'<p>'+e.properties.rain['02H']+''+'</p>'+'<p>'+e.properties.rain['03H']+''+'</p>';
+		    }
+			
+		   
+		    e.layer.bindPopup(popupContent);
+		    if (e.properties && e.properties.style && e.layer.setStyle) {
+		        e.layer.setStyle(e.properties.style);  
+				e.layer.setStyle({"fillOpacity": CurOpacity,"Opacity": CurOpacity});
+		    }
+		});
+		
+		lilaojsonLayer.addGeoJSON(lilao_poly)
+		
+		//alert(lilaojsonLayer._layers.length)
+		map.addLayer(lilaojsonLayer)
+	
+	}
+	
+	
 	function AddAws5Feature(map){
 	
 	   var BaseballIcon = L.Icon.extend({
@@ -98,6 +129,8 @@
 	}
 	////////////////////
 	function AddLilaoFeature(map){
+	
+	    //lilaojsonLayer = L.GeoJSON.geoJSONToLayer(lilao_poly)
 	    lilaojsonLayer.on("featureparse", function (e) {
 		    
 		    var popupContent = "";
@@ -113,24 +146,27 @@
 		    e.layer.bindPopup(popupContent);
 		    if (e.properties && e.properties.style && e.layer.setStyle) {
 		        e.layer.setStyle(e.properties.style);
+				e.layer.setStyle({"fillOpacity":0.4});
 		    }
 		});
 		
 		lilaojsonLayer.addGeoJSON(lilao_poly)
+		
+		//alert(lilaojsonLayer._layers.length)
 		map.addLayer(lilaojsonLayer)
 		
 	
-	    
-	   	for (var i = 0; i < 20; i++) {
-			for (var j = 0; j < 20; j++) {
-			
-			var circleLocationnew = new L.LatLng(j*0.01+39.7, i*0.01+116.3)
-			var circlenew = new L.Circle(circleLocationnew, 50,{ color: 'red'})
-			
-			map.addLayer(circlenew);
-			circlenew.bindPopup('I am a circle');
-		}
-		}
+	  //  
+//	   	for (var i = 0; i < 20; i++) {
+//			for (var j = 0; j < 20; j++) {
+//			
+//			var circleLocationnew = new L.LatLng(j*0.01+39.7, i*0.01+116.3)
+//			var circlenew = new L.Circle(circleLocationnew, 50,{ color: 'red'})
+//			
+//			map.addLayer(circlenew);
+//			circlenew.bindPopup('I am a circle');
+//		}
+//		}
 	}
 	 
 	 
@@ -175,7 +211,8 @@
 </script>
 
 </head>
-<body class="ui-layout-container">
+<body class="ui-layout-container" >
+
 
 
 <div class="ui-layout-west pane pane-west">
@@ -273,7 +310,7 @@
 		
 	</div>
 
-	<div class="footer">I'm a footer</div>
+	<div class="footer" >I'm a footer</div>
 	<div class="footer">I'm another footer</div>
 	<div class="footer">Unlimited headers &amp; footers</div>
 
@@ -291,6 +328,7 @@
 	 <button onClick="map.addLayer(lilaojsonLayer)">add</button>
 	  <button onClick="map.removeLayer(aws5layer)">remove_aws</button>
 	 <button onClick="map.addLayer(aws5layer)">add_aws</button>
+	 <button onClick="setopacity(lilaojsonLayer)">setopacity_lilao</button>
 	</div>
 	
 </div>
@@ -298,8 +336,13 @@
 
 <div class="ui-layout-south pane pane-south" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; top: auto; width: auto; z-index: 1; bottom: 0px; left: 0px; right: 0px; height: 109px; display: none; visibility: visible; ">
 	<div class="header">Outer - South</div>
-	<div class="content" style="position: relative; ">
+	<div class="content" style="position: relative; height:600px; background:#999999 ">
 		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p>
+		<p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p><p>I only have a resizer/toggler when 'open'</p>
 	</div>
 </div>
 
@@ -307,7 +350,7 @@
 <div id="mainContent" style="position: absolute; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; z-index: 1; top: 122px; bottom: 0px; left: 21px; right: 21px; width: 1292px; height: 431px; display: block; visibility: visible; " class="pane pane-center pane-hover pane-center-hover pane-open-hover pane-center-open-hover">
 
 <div id="logo" style="width:100%; height:30px; background:#33CC99"></div>
-<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc"></div>
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc; overflow:hidden"></div>
 </div>
 
 <script type="text/javascript">

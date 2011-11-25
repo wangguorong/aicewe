@@ -109,7 +109,13 @@ L.DomUtil = {
 		return !L.DomUtil.hasClass(element, "leaflet-hidden");
 	},
 	//TODO refactor away this ugly translate/position mess
-	
+	setOpacity: function(el, value) {
+ 	  if (L.Browser.ie) {
+ 	 	     el.style.filter = 'alpha(opacity=' + Math.round(value * 100) + ')';
+ 	  } else {
+       el.style.opacity = value; 	
+    }	
+  },
 	testProp: function(props) {
 		var style = document.documentElement.style;
 		

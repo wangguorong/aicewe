@@ -12,6 +12,8 @@ body {
 	font-family: Lucida Grande, Lucida Sans, Arial, Helvetica, sans-serif;
 	font-size: 100%;
 	background-color: #EEE;
+	height:2000px;
+	overflow:visible
 }
 h1 {
 	font-size: 2em;
@@ -305,14 +307,14 @@ ul.toolbar {
 span.button-pin ,
 span.button-close {
 	position:	absolute;
-	top:		0;
+	/* top:		0;*/
 	width: 		20px;
 	height:		20px;
 	z-index:	2;
 	display:	block;
 	cursor: 	pointer;
 }
-span.button-close-west	{ left:	 0; }
+span.button-close-west	{ left:	 5; }
 span.button-close-east	{ right: 0; }
 span.button-pin-west	{ right: 1px; }
 span.button-pin-east	{ left:	 1px; }

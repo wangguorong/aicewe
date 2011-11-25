@@ -5,6 +5,12 @@ width:1px; height:11px
 
 
 }
+.treeview .nosee {
+background-image:url(../../img/close-eye.gif);
+width:1px; height:11px
+
+
+}
 .treeview, .treeview ul { 
 	padding: 0;
 	margin: 0;
@@ -33,7 +39,7 @@ width:1px; height:11px
 .treeview li { 
 	margin: 0;
 	padding: 3px 0pt 3px 16px;
-	font-size:12px
+	font-size:14px
 }
 
 .treeview a.selected {
